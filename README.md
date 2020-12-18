@@ -294,6 +294,8 @@ public HttpResult user() {
 
 ![image](https://www.yunask.cn/images/sso/6.jpg)
 
+Demo项目地址 https://github.com/LerDer/ssso-demo
+
 欢迎大家关注我的公众号，共同学习，一起进步。加油🤣
 
 <img src="https://www.yunask.cn/images/minap/q.jpg"  width=50%>

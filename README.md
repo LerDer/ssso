@@ -142,7 +142,7 @@ private Boolean autoRenewal = false;
 
 ### `properties`文件自动提示
 
-![image](https://github.com/LerDer/sssso/blob/master/src/main/resources/img/1.jpg)
+![image](https://www.yunask.cn/images/sso/1.jpg)
 
 ### 使用方式
 新建一个项目，然后添加下面依赖
@@ -249,18 +249,18 @@ public static void setUser(SsoUser user, Boolean rememberMe) {
 }
 ```
 
-![image](https://github.com/LerDer/sssso/blob/master/src/main/resources/img/2.jpg)
+![image](https://www.yunask.cn/images/sso/2.jpg)
 
 - `demo`为系统名称，`_dk`表示环境为日常开发环境，`Cookie`加密存储
 
-![image](https://github.com/LerDer/sssso/blob/master/src/main/resources/img/3.jpg)
+![image](https://www.yunask.cn/images/sso/3.jpg)
 
 - `Domian`从`url`中获取
 
 - 设置为单点登录模式，模拟重复登录。先在一个浏览器中登录，获取用户正常。
 然后打开另一个浏览器登录，再回到前一个浏览器获取用户。
 
-![image](https://github.com/LerDer/sssso/blob/master/src/main/resources/img/4.jpg)
+![image](https://www.yunask.cn/images/sso/4.jpg)
 
 ### 登出
 
@@ -275,7 +275,7 @@ public HttpResult logout() {
 
 - 登出后，Cookie删除
 
-![image](https://github.com/LerDer/sssso/blob/master/src/main/resources/img/5.jpg)
+![image](https://www.yunask.cn/images/sso/5.jpg)
 
 
 ### 获取当前登录用户
@@ -292,7 +292,7 @@ public HttpResult user() {
 }
 ```
 
-![image](https://github.com/LerDer/sssso/blob/master/src/main/resources/img/6.jpg)
+![image](https://www.yunask.cn/images/sso/6.jpg)
 
 欢迎大家关注我的公众号，共同学习，一起进步。加油🤣
 

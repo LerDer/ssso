@@ -12,7 +12,7 @@
 
     <groupId>com.sbt</groupId>
     <artifactId>ssso</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <name>ssso</name>
     <description>Demo project for Spring Boot</description>
 

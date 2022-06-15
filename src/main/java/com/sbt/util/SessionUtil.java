@@ -103,30 +103,6 @@ public class SessionUtil implements InitializingBean {
         return null;
     }
 
-    public static Long getEcUserId() {
-        HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
-        Cookie[] cookies = request.getCookies();
-        CommonUtil.isTrue(cookies != null, "当前未登陆或登陆失效，获取cookie失败！");
-        for (Cookie cookie : cookies) {
-            if (USER_IN_SESSION.equalsIgnoreCase(cookie.getName())) {
-                return getSsoUser(cookie).getEcUserId();
-            }
-        }
-        return null;
-    }
-
-    public static Long getEcMemberId() {
-        HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
-        Cookie[] cookies = request.getCookies();
-        CommonUtil.isTrue(cookies != null, "当前未登陆或登陆失效，获取cookie失败！");
-        for (Cookie cookie : cookies) {
-            if (USER_IN_SESSION.equalsIgnoreCase(cookie.getName())) {
-                return getSsoUser(cookie).getMemberId();
-            }
-        }
-        return null;
-    }
-
     public static String getName() {
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         Cookie[] cookies = request.getCookies();
@@ -184,13 +160,15 @@ public class SessionUtil implements InitializingBean {
         HttpServletResponse response = HttpContextUtils.getHttpServletResponse();
         user.setIpAddress(IPUtils.getIpAddr(request));
         user.setEnv(USER_IN_SESSION);
-        String uuid = null;
+        String uuid;
         if (StringUtils.isBlank(user.getVersion())) {
             user.setRecentLoginTime(new Date());
         }
         if (refreshVersion || StringUtils.isBlank(user.getVersion())) {
             uuid = UUID.randomUUID().toString();
             user.setVersion(uuid);
+        } else {
+            uuid = user.getVersion();
         }
         user.setSystemName(systemName);
         RedisUtil redisUtil = SpringBeanFactoryUtils.getApplicationContext().getBean(RedisUtil.class);
@@ -202,7 +180,7 @@ public class SessionUtil implements InitializingBean {
         } else {
             SsoUser ssoUser = JSONObject.parseObject(value, SsoUser.class);
             //小于1天重新写入
-            if (ssoUser.getRecentLoginTime() == null || ssoUser.getRecentLoginTime().getTime() - System.currentTimeMillis() < (24 * 60 * 60 * 1000)) {
+            if (ssoUser.getRecentLoginTime() == null || System.currentTimeMillis() - ssoUser.getRecentLoginTime().getTime() < (24 * 60 * 60 * 1000)) {
                 redisUtil.setValue(key, JSONObject.toJSONString(user), 7, TimeUnit.DAYS);
             }
         }

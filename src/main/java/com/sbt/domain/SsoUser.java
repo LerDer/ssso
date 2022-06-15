@@ -16,16 +16,6 @@ public class SsoUser {
     private Long userId;
 
     /**
-     * EC的memberId
-     */
-    private Long memberId;
-
-    /**
-     * EC  member_user_id
-     */
-    private Long ecUserId;
-
-    /**
      * 姓名
      */
     private String name;
@@ -44,6 +34,11 @@ public class SsoUser {
      * 身份证号
      */
     private String idcardNo;
+
+    /**
+     * 头像 url
+     */
+    private String avatar;
 
     /**
      * 用户状态

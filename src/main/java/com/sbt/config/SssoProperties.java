@@ -65,16 +65,6 @@ public class SssoProperties {
      */
     private Boolean autoRenewal = false;
 
-    private SssoConfig config;
-
-    public SssoConfig getConfig() {
-        return config;
-    }
-
-    public void setConfig(SssoConfig config) {
-        this.config = config;
-    }
-
     public Boolean getAutoRenewal() {
         return autoRenewal;
     }
@@ -202,9 +192,6 @@ public class SssoProperties {
 
     public void init() {
         SssoConfig config = SpringBeanFactoryUtils.getApplicationContext().getBean(SssoConfig.class);
-        if (config == null) {
-            return;
-        }
         if (config.getAutoRenewal() != null) {
             this.setAutoRenewal(config.getAutoRenewal());
         }

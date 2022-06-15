@@ -1,12 +1,13 @@
 package com.sbt.config;
 
+import com.sbt.util.SpringBeanFactoryUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @author lww
  */
 @ConfigurationProperties(prefix = "sbt.sso")
-public class ConfEnv {
+public class SssoProperties {
 
     /**
      * 当前环境 local,daily,gray,online
@@ -63,6 +64,16 @@ public class ConfEnv {
      * 是否自动续约，即自动续订Cookie有效时长，默认false
      */
     private Boolean autoRenewal = false;
+
+    private SssoConfig config;
+
+    public SssoConfig getConfig() {
+        return config;
+    }
+
+    public void setConfig(SssoConfig config) {
+        this.config = config;
+    }
 
     public Boolean getAutoRenewal() {
         return autoRenewal;
@@ -136,7 +147,7 @@ public class ConfEnv {
         this.systemName = systemName;
     }
 
-    public ConfEnv() {
+    public SssoProperties() {
     }
 
     public Boolean getSingleLogin() {
@@ -189,4 +200,43 @@ public class ConfEnv {
         }
     }
 
+    public void init() {
+        SssoConfig config = SpringBeanFactoryUtils.getApplicationContext().getBean(SssoConfig.class);
+        if (config == null) {
+            return;
+        }
+        if (config.getAutoRenewal() != null) {
+            this.setAutoRenewal(config.getAutoRenewal());
+        }
+        if (config.getIpCheck() != null) {
+            this.setIpCheck(config.getIpCheck());
+        }
+        if (config.getEncryptKey() != null) {
+            this.setEncryptKey(config.getEncryptKey());
+        }
+        if (config.getDomainName() != null) {
+            this.setDomainName(config.getDomainName());
+        }
+        if (config.getMulBlack() != null) {
+            this.setMulBlack(config.getMulBlack());
+        }
+        if (config.getAllHandle() != null) {
+            this.setAllHandle(config.getAllHandle());
+        }
+        if (config.getUrlPattern() != null) {
+            this.setUrlPattern(config.getUrlPattern());
+        }
+        if (config.getNotPattern() != null) {
+            this.setNotPattern(config.getNotPattern());
+        }
+        if (config.getSystemName() != null) {
+            this.setSystemName(config.getSystemName());
+        }
+        if (config.getSingleLogin() != null) {
+            this.setSingleLogin(config.getSingleLogin());
+        }
+        if (config.getEnv() != null) {
+            this.setEnv(config.getEnv());
+        }
+    }
 }

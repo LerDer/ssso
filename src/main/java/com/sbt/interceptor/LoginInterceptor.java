@@ -1,5 +1,6 @@
-package com.sbt.config;
+package com.sbt.interceptor;
 
+import com.sbt.config.SssoProperties;
 import com.sbt.domain.SsoUser;
 import com.sbt.util.CommonUtil;
 import com.sbt.util.IPUtils;
@@ -13,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -23,37 +23,28 @@ import org.springframework.web.servlet.HandlerInterceptor;
  */
 @Slf4j
 @Component
-public class LoginInterceptor implements HandlerInterceptor, InitializingBean {
+public class LoginInterceptor implements HandlerInterceptor {
 
     @Resource
-    private ConfEnv confEnv;
+    private SssoProperties sssoProperties;
 
     @Resource
     private RedisUtil redisUtil;
 
-    private static List<String> urlPattern = new ArrayList<>();
-
-    private static List<String> notPattern = new ArrayList<>();
-
-    private static Boolean allHandle = false;
-
     @Override
-    public void afterPropertiesSet() {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         // 带星号的当做正则编译处理，需要登陆才能访问
-        urlPattern = Arrays.asList(confEnv.getUrlPattern().split(","));
+        String[] urlPattern = sssoProperties.getUrlPattern().split(",");
         //不需要登陆就可以访问，支持正则
-        notPattern = Arrays.asList(confEnv.getNotPattern().split(","));
-        notPattern = new ArrayList<>(notPattern);
+        List<String> notPattern = new ArrayList<>();
         notPattern.add(".+swagger.+");
         notPattern.add("/csrf");
         notPattern.add("/error");
+        notPattern.add("/favicon.ico");
         notPattern.add("/");
-        //全拦截
-        allHandle = confEnv.getAllHandle();
-    }
+        notPattern.addAll(Arrays.asList(sssoProperties.getNotPattern().split(",")));
+        Boolean allHandle = sssoProperties.getAllHandle();
 
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String ipAddr = IPUtils.getIpAddr(request);
         String blackIp = redisUtil.getValue(SessionUtil.getBlackIpKey(ipAddr));
         CommonUtil.isTrue(StringUtils.isBlank(blackIp), "IP已被限制访问！");
@@ -64,6 +55,7 @@ public class LoginInterceptor implements HandlerInterceptor, InitializingBean {
             for (String not : notPattern) {
                 if (servletPath.matches(not)) {
                     handle = false;
+                    break;
                 }
             }
             if (handle) {

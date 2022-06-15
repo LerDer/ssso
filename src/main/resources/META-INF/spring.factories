@@ -1,1 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=com.sbt.config.WebConfig,com.sbt.exception.DefaultGlobalExceptionHandler

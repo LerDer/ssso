@@ -1,7 +1,6 @@
-package com.sbt.config;
+package com.sbt.interceptor;
 
 import javax.annotation.Resource;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -11,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @date 2019-04-17 11:59 AM
  */
 @Configuration
-@ComponentScan(basePackages = "com.sbt")
 public class WebConfig implements WebMvcConfigurer {
 
     @Resource

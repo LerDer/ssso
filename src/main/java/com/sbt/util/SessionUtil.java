@@ -1,7 +1,7 @@
 package com.sbt.util;
 
 import com.alibaba.fastjson.JSONObject;
-import com.sbt.config.ConfEnv;
+import com.sbt.config.SssoProperties;
 import com.sbt.domain.SsoUser;
 import com.sbt.util.blowfish.Blowfish;
 import java.util.Date;
@@ -23,7 +23,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2020-08-19 10:18
  */
 @Configuration
-@EnableConfigurationProperties(ConfEnv.class)
+@EnableConfigurationProperties(SssoProperties.class)
 public class SessionUtil implements InitializingBean {
 
     private static final String PRE = "SSO";
@@ -64,7 +64,7 @@ public class SessionUtil implements InitializingBean {
     public static Boolean autoRenewal;
 
     @Resource
-    private ConfEnv confEnv;
+    private SssoProperties confEnv;
 
     @Override
     public void afterPropertiesSet() {
@@ -198,6 +198,7 @@ public class SessionUtil implements InitializingBean {
         String value = redisUtil.getValue(key);
         if (StringUtils.isBlank(value)) {
             redisUtil.incr(ALL_USER_COUNT);
+            redisUtil.setValue(key, JSONObject.toJSONString(user), 7, TimeUnit.DAYS);
         } else {
             SsoUser ssoUser = JSONObject.parseObject(value, SsoUser.class);
             //小于1天重新写入

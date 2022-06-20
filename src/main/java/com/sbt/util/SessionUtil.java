@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -23,7 +22,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2020-08-19 10:18
  */
 @Configuration
-@EnableConfigurationProperties(SssoProperties.class)
+//@EnableConfigurationProperties(SssoProperties.class)
 public class SessionUtil implements InitializingBean {
 
     private static final String PRE = "SSO";

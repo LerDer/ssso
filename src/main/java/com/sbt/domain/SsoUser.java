@@ -56,15 +56,18 @@ public class SsoUser {
     private String systemName;
 
     /**
-     * ip 地址
+     * 不用设置,框架自动获取, ip 地址
      */
     private String ipAddress;
 
     /**
-     * 当前登录版本号，用来单点登录
+     * 不用设置,框架自动获取,当前登录版本号，用来单点登录
      */
     private String version;
 
+    /**
+     * 不用设置,框架自动获取
+     */
     private String env;
 
 }

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @author lww
  * @date 2019-03-27 11:20 AM
  */
-@Component
+@Component("ssoSpringBeanFactoryUtils")
 public class SpringBeanFactoryUtils implements ApplicationContextAware {
 
     private static ApplicationContext context;

@@ -1,5 +1,6 @@
 package com.sbt.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
 
@@ -8,7 +9,9 @@ import lombok.Data;
  * @date 2020-08-19 10:01
  */
 @Data
-public class SsoUser {
+public class SsoUser implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * 用户id
@@ -69,5 +72,7 @@ public class SsoUser {
      * 不用设置,框架自动获取
      */
     private String env;
+
+    private SsoRole role;
 
 }

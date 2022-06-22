@@ -49,7 +49,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         String blackIp = redisUtil.getValue(SessionUtil.getBlackIpKey(ipAddr));
         CommonUtil.isTrue(StringUtils.isBlank(blackIp), "IP已被限制访问！");
         String servletPath = request.getServletPath();
-        log.info("LoginInterceptor_preHandle_servletPath:{}", servletPath);
+        //log.info("LoginInterceptor_preHandle_servletPath:{}", servletPath);
         boolean handle = true;
         //全拦截模式,放过部分url
         if (allHandle) {

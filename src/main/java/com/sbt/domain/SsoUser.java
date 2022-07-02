@@ -16,7 +16,7 @@ public class SsoUser implements Serializable {
     /**
      * 用户id
      */
-    private String userId;
+    private Long userId;
 
     /**
      * 姓名

@@ -77,13 +77,19 @@ public class LoginInterceptor implements HandlerInterceptor {
     private void check(String ipAddr) {
         log.info("LoginInterceptor_check_ipAddr:{}", ipAddr);
         SsoUser user = SessionUtil.getUser();
-        CommonUtil.isTrue(user != null, "登录失效，请重新登录！");
-        String blackId = redisUtil.getValue(SessionUtil.getBlackIdKey(user.getUserId()));
-        CommonUtil.isTrue(StringUtils.isBlank(blackId), "用户已被限制访问！");
-        String ipAddress = user.getIpAddress();
-        log.info("LoginInterceptor_check_ipAddress:{}", ipAddress);
-        //刷新 Cookie 有效时长，设置自动续约才有
-        SessionUtil.setUser(user, SessionUtil.autoRenewal);
+        if (user != null) {
+            String blackId = redisUtil.getValue(SessionUtil.getBlackIdKey(user.getUserId()));
+            CommonUtil.isTrue(StringUtils.isBlank(blackId), "用户已被限制访问！");
+            String ipAddress = user.getIpAddress();
+            log.info("LoginInterceptor_check_ipAddress:{}", ipAddress);
+            //刷新 Cookie 有效时长，设置自动续约才有
+            SessionUtil.setUser(user, SessionUtil.autoRenewal);
+        } else {
+            Long userId = SessionUtil.getUserId();
+            CommonUtil.isTrue(userId != null, "登录失效，请重新登录！");
+            String blackId = redisUtil.getValue(SessionUtil.getBlackIdKey(userId));
+            CommonUtil.isTrue(StringUtils.isBlank(blackId), "用户已被限制访问！");
+        }
     }
 
 }

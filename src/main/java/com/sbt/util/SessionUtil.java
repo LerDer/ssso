@@ -93,7 +93,7 @@ public class SessionUtil implements InitializingBean {
     /**
      * 使用 cookie 可以获取 userId,使用 header 可以获取 token
      */
-    public static String getUserId() {
+    public static Long getUserId() {
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         Cookie[] cookies = request.getCookies();
         String token = request.getHeader("token");
@@ -103,7 +103,7 @@ public class SessionUtil implements InitializingBean {
                 return getSsoUser(cookie).getUserId();
             }
         }
-        return token;
+        return Long.valueOf(token);
     }
 
     public static String getName() {

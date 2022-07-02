@@ -98,9 +98,11 @@ public class SessionUtil implements InitializingBean {
         Cookie[] cookies = request.getCookies();
         String token = request.getHeader("token");
         CommonUtil.isTrue(cookies != null || StringUtils.isNotBlank(token), "当前未登陆或登陆失效，获取cookie失败！");
-        for (Cookie cookie : cookies) {
-            if (USER_IN_SESSION.equalsIgnoreCase(cookie.getName())) {
-                return getSsoUser(cookie).getUserId();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (USER_IN_SESSION.equalsIgnoreCase(cookie.getName())) {
+                    return getSsoUser(cookie).getUserId();
+                }
             }
         }
         return Long.valueOf(token);
@@ -146,7 +148,9 @@ public class SessionUtil implements InitializingBean {
     public static SsoUser getUser() {
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         Cookie[] cookies = request.getCookies();
-        CommonUtil.isTrue(cookies != null, "当前未登陆或登陆失效，获取cookie失败！");
+        if (cookies == null) {
+            return null;
+        }
         for (Cookie cookie : cookies) {
             if (USER_IN_SESSION.equalsIgnoreCase(cookie.getName())) {
                 return getSsoUser(cookie);

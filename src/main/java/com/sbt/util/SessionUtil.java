@@ -90,16 +90,20 @@ public class SessionUtil implements InitializingBean {
         }
     }
 
-    public static Long getUserId() {
+    /**
+     * 使用 cookie 可以获取 userId,使用 header 可以获取 token
+     */
+    public static String getUserId() {
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         Cookie[] cookies = request.getCookies();
-        CommonUtil.isTrue(cookies != null, "当前未登陆或登陆失效，获取cookie失败！");
+        String token = request.getHeader("token");
+        CommonUtil.isTrue(cookies != null || StringUtils.isNotBlank(token), "当前未登陆或登陆失效，获取cookie失败！");
         for (Cookie cookie : cookies) {
             if (USER_IN_SESSION.equalsIgnoreCase(cookie.getName())) {
                 return getSsoUser(cookie).getUserId();
             }
         }
-        return null;
+        return token;
     }
 
     public static String getName() {
@@ -129,13 +133,14 @@ public class SessionUtil implements InitializingBean {
     public static Boolean isLogin() {
         HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
         Cookie[] cookies = request.getCookies();
-        CommonUtil.isTrue(cookies != null, "当前未登陆或登陆失效，获取cookie失败！");
+        String token = request.getHeader("token");
+        CommonUtil.isTrue(cookies != null || StringUtils.isNotBlank(token), "当前未登陆或登陆失效，获取cookie失败！");
         for (Cookie cookie : cookies) {
             if (USER_IN_SESSION.equalsIgnoreCase(cookie.getName())) {
                 return getSsoUser(cookie) != null;
             }
         }
-        return false;
+        return StringUtils.isNotBlank(token);
     }
 
     public static SsoUser getUser() {

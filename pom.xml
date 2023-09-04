@@ -16,33 +16,6 @@
     <name>ssso</name>
     <description>Demo project for Spring Boot</description>
 
-    <distributionManagement>
-        <repository>
-            <id>releases</id><!--这个ID需要与你的release仓库的Repository ID一致-->
-            <name>Releases</name>
-            <url>http://47.100.188.79:8081/nexus/content/repositories/releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>snapshots</id><!--这个ID需要与你的snapshots仓库的Repository ID一致-->
-            <name>Snapshots</name>
-            <url>http://47.100.188.79:8081/nexus/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
-
-    <repositories>
-        <repository>
-            <id>public</id>
-            <name>Team Maven Repository</name>
-            <url>http://47.100.188.79:8081/nexus/content/groups/public/</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
